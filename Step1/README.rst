@@ -121,3 +121,38 @@ as follows:
     std::cout << "Usage: " << argv[0] << " number\n";
     return EXIT_FAILURE;
   }
+
+
+Specify the C++ Standard
+------------------------
+Next let's add some C++11 features to our project by replacing ``atof`` with
+``std::stdod`` in ``tutorial.cpp``. At the same time, remove
+``#include <cstdlib>``.
+
+.. code-block::
+
+  const double inputValue = std::stod(argv[1]);
+
+
+We will need to explicitly state in the CMake code that it should use the
+correct flags. The easiest way to enable support for a specific C++ standard
+in CMake is by using the ``CMAKE_CXX_STANDARD`` variable. For this tutorial, set the
+``CMAKE_CXX_STANDARD`` variable in the ``CMakeLists.txt`` file to ``11`` and
+``CMAKE_CXX_STANDARD_REQUIRED`` to ``True``. Make sure to add the ``CMAKE_CXX_STANDARD``
+declarations above to call the ``add_executable``.
+
+
+.. code-block::
+
+  cmake_minimum_required(VERSION 3.10)
+
+  # Set the project name and version
+  project(Tutorial VERSION 1.0)
+
+  # Specify the C++ standard
+  set(CMAKE_CXX_STANDARD 11)
+  set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+
+Rebuild
+-------

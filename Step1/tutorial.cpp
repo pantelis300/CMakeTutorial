@@ -1,5 +1,4 @@
 #include <cmath>
-#include <cstdlib>
 #include <iostream>
 #include <string>
 
@@ -14,7 +13,7 @@ int main(int argc, char **argv) {
     return EXIT_FAILURE;
   }
   
-  const double inputValue = atof(argv[1]);
+  const double inputValue = std::stod(argv[1]);
   const double outputValue = sqrt(inputValue);
   std::cout << "The square root of " << inputValue << " is "
             << outputValue << '\n';
