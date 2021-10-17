@@ -61,4 +61,63 @@ Finally, try to use the newly built ``Tutorial`` with these commands:
 
 
 Adding a Version Number and Configured Header File
-==================================================
+--------------------------------------------------
+
+The first feature we will add is to provide our executable and project with a
+version number. While we could do this exclusively in the source code, using
+``CMakeLists.txt`` provides more flexibility.
+
+First, modify the ``CMakeLists.txt`` file to use the ``project()`` command
+to set the project name and version number.
+
+.. code-block::
+
+  cmake_minimum_required(VERSION 3.15)
+
+  # Set the project name and version
+  project(Tutorial VERSION 1.0)
+
+
+Then, configure a header file to pass the version to the source code:
+
+.. code-block::
+
+  configure_file(TutorialConfig.h.in TutorialConfig.h)
+
+Since the configured file will be written into the binary tree, we must add the
+directory to the list of paths to search for include files. Add the following
+files to the end of the CMakeLists.txt file:
+
+.. code-block::
+
+  target_include_directories(Tutorial PUBLIC
+                             "${PROJECT_BINARY_DIR}")
+
+
+Using your favorite editor, create ``TutorialConfig.h.in`` in the source directory
+with the following contents:
+
+.. code-block::
+
+  // the configuration options and settings for Tutorial
+  #define Tutorial_VERSION_MAJOR @Tutorial_VERSION_MAJOR@
+  #define Tutorial_VERSION_MINOR @Tutorial_VERSION_MINOR@
+
+
+When CMake configures this header file the values for ``@Tutorial_VERSION_MAJOR@``
+and ``Tutorial_VERSION_MINOR@`` will be replaced.
+
+Next modify ``tutorial.cpp`` to include the configured header file, ``TutorialConfig.h``.
+
+Finally, let's print out the executable name and version number by updating ``tutorial.cpp``
+as follows:
+
+.. code-block::
+
+  if (argc < 2) {
+    // report version
+    std::cout << argv[0] << " Version " << Tutorial_VERSION_MAJOR
+              << '.' << Tutorial_VERSION_MINOR << '\n';
+    std::cout << "Usage: " << argv[0] << " number\n";
+    return EXIT_FAILURE;
+  }
