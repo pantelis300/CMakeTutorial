@@ -48,3 +48,50 @@ prefix can be overridden via the --prefix argument. For example:
 
   cmake --install . --prefix "~/installdir"
 
+
+Testing Support
+---------------
+Next let's test our application. At the end of the top-level ``CMakeLists.txt`` file
+we can enable testing and then add a number of basic tests to verify that the application
+is working correctly.
+
+.. code-blocks::
+
+  enable_testing()
+
+  # Does the application run
+  add_test(NAME Runs COMMAND Tutorial 25)
+
+  # Does the usage message work?
+  add_test(NAME Usage COMMAND Tutorial)
+  set_tests_properties(Usage
+    PROPERTIES PASS_REGULAR_EXPRESSION "Usage:.*number")
+
+  # Define a function to simplify adding tests
+  function(do_test target arg result)
+    add_test(NAME Comp${arg} COMMAND ${target} ${arg})
+    set_tests_properties(Comp${arg}
+                        PROPERTIES PASS_REGULAR_EXPRESSION ${result})
+  endfunction(do_test)
+
+  # Do a bunch of result based tests
+  do_test(Tutorial 4 "4 is 2")
+  do_test(Tutorial 9 "9 is 3")
+  
+
+The first test simply verifies that the application runs, does not segfault or otherwise
+crash, and has zero return value. This is the basic form of a CTest test.
+
+The next test makes use of the PASS_REGULAR_EXPRESSION test property to verify that the
+output of the test contains certain strings, verifying that the usage message is printed
+when an incorrect number of arguments are provided.
+
+Lastrly, we have a function called ``do_test`` that runs the application and verifies
+that the computed square root is correct for a given input. For each invocation of do_test,
+another test is added to the project with a name, input and expected results based on the
+passed arguments.
+
+Rebuild the application and then cd to the binary directory and run the ``ctest`` executable:
+``ctest -N`` and ``ctest -VV``. For multi-config generators (e.g. Visual Studio), the
+configuration type must be specified. To run tests in Debug mode, for example, use
+``ctest -C Debug -VV`` from the build directory (not the Debug subdirectory!).

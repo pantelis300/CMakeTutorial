@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <string>
 #include "TutorialConfig.h"
 
@@ -25,6 +26,7 @@ int main(int argc, char **argv) {
   const double outputValue = sqrt(inputValue);
   std::cout << "sqrt() from cmath standard library:\n";
 #endif
+  std::cout << std::setprecision(12);
   std::cout << "The square root of " << inputValue << " is "
             << outputValue << '\n';
 }
