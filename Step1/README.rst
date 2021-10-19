@@ -6,7 +6,7 @@ For simple projects, a three line ``CMakeLists.txt`` file is all that is
 required. This will be the starting point for our tutorial. Create a
 ``CMakeLists.txt`` file in the ``Step1`` directory that looks like:
 
-.. code-block:: cmake
+.. code-block::
   :caption: CMakeLists.txt
   :name: CMakeLists.txt-start
 
@@ -156,3 +156,4 @@ declarations above to call the ``add_executable``.
 
 Rebuild
 -------
+  $ ./build_and_run.sh
