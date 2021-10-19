@@ -80,3 +80,36 @@ to look like the following:
                              "${PROJECT_BINARY_DIR}"
                              ${EXTRA_INCLUDES})
 
+Note the use of the variable EXTRA_LIBS to collect up any optional libaries to
+later to be linked into the executable. The variable ``EXTRA_INCLUDES`` is
+used similarly for optional header files. This is a classic approach when
+dealing with many optional components, we will cover the modern approach in
+the next step.
+
+The corresponding changes to the source code are fairly straightforward. First,
+in tutorial.cpp, include the ``MathFunctions.h`` header if we need it:
+
+.. code-blocks::
+
+   #ifdef USE_MYMATH
+   #    include "MathFunction.h"
+   #endif
+
+
+Then, in the same file, make ``USE_MYMATH`` control which square root function is used:
+
+.. code-blocks::
+
+  #ifdef
+    const double outputValue = mysqrt(inputValue);
+  #else
+    const double outputVaoue = sqrt(inputValue);
+  #endif
+
+
+Since the source code now requires ``USE_MYMATH`` we can add it to ``TutorialConfig.h.in``
+with the following line:
+
+.. code-block::
+
+  #cmakedefine USE_MYMATH

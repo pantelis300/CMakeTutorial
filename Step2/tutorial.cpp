@@ -1,10 +1,12 @@
-#include <cmath>
 #include <iostream>
 #include <string>
-
 #include "TutorialConfig.h"
 
-#include "MathFunctions.h"
+#ifdef USE_MYMATH 
+#  include "MathFunctions.h"
+#else
+#  include <cmath>
+#endif
 
 int main(int argc, char **argv) {
   if (argc < 2) {
@@ -16,7 +18,13 @@ int main(int argc, char **argv) {
   }
   
   const double inputValue = std::stod(argv[1]);
+#ifdef USE_MYMATH
   const double outputValue = mysqrt(inputValue);
+  std::cout << "custom mysqrt():\n";
+#else
+  const double outputValue = sqrt(inputValue);
+  std::cout << "sqrt() from cmath standard library:\n";
+#endif
   std::cout << "The square root of " << inputValue << " is "
             << outputValue << '\n';
 }
